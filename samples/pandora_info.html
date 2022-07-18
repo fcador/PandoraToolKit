@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Pandora Info</title>
-    <link rel="stylesheet" content="width=device-width, initial-scale=1.0" href="pandora_info.css">
+    <link rel="stylesheet" content="width=device-width, initial-scale=1.0" href="pandora_box.css">
     <script src="../src/PandoraInfo.js"></script>
+    <script src="../src/PandoraConsent.js"></script>
 </head>
 <body>
 
@@ -16,6 +17,8 @@
             <span slot="valid">Haaaa, OK !</span>
         </pandora-info>
     </div>
+    <pandora-consent pandora-cookie='["Stats", "Advertising stuff", "Please let me track you"]'>
+    </pandora-consent>
 
 </body>
 </html>

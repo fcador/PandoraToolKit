@@ -1,12 +1,18 @@
 Pandora Toolkit
 =====
 
+About Pandora Toolkit
+-----
+Pandora is a toolkit to help making basic modal boxes to display infos, cookie consent or videos.
+
 Dependencies
 -----
 * No depedencies
 
 Usage
 -----
+PandoraConsent will show right after the loading of the DOM.
+For PandoraPlayer and PandoraInfo, you will need an element as trigger, with the correct class value (pandora-i-open or pandora-v-open).
 ```html
 <!DOCTYPE html>
 <html lang="fr">
@@ -28,3 +34,16 @@ Usage
 </body>
 </html>
 ```
+
+Customized styles
+-----
+Use data-attributes in the pandora-* tag to customize the style of your modal box.
+Here is a list of all the data-attributes you can use:
+* pandora-backdrop-opacity
+* pandora-backdrop-color
+* pandora-color-title
+* pandora-bg-title
+* pandora-msg-color
+* pandora-msg-bg
+* pandora-valid-btn-color
+* pandora-valid-btn-bg
