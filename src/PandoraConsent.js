@@ -1,7 +1,17 @@
 const template = document.createElement('template');
 template.innerHTML = `
 <style>
-    
+.pandora-consent{width: fit-content; max-width: 50vw; max-height: 50vh; font-family: Roboto, sans-serif; border-radius: 10px;background-color: #f4f4f4;padding: 0}
+.pandora-consent :is(.pandora-header, .pandora-form){padding: 10px 20px; font-size: 14px; text-align: justify;}
+.pandora-consent .pandora-form{display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.pandora-consent .pandora-form div{width:100% ;display: flex;justify-content: space-between; align-items: center;}
+.pandora-consent::backdrop{opacity: 0.5; background: grey}
+.pandora-consent .pandora-header{background-color: #008000;font-size: 22px; color: #f4f4f4;}
+.pandora-consent .btn-area {display: flex; justify-content: right;}
+.pandora-consent .btn-area :is(.pandora-consent-accept, .pandora-consent-accept-some, .pandora-consent-refuse) {width: fit-content; padding: 10px 20px; margin: 10px 20px; border-radius: 50px; background-color: #008000; font-size: 12px; font-weight: bold; color: #f4f4f4; border: 1px transparent solid;}
+.pandora-consent .btn-area .pandora-consent-refuse {width: fit-content; padding: 10px 20px; margin: 10px 20px; border-radius: 50px; background-color: #f4f4f4; font-size: 12px; font-weight: bold; color: #008000; border: 1px transparent solid;}
+.pandora-consent .btn-area :is(.pandora-consent-accept:hover, .pandora-consent-accept-some:hover, .pandora-consent-refuse:hover){cursor: pointer; background-color: #f4f4f4; color: #008000; border: 1px #008000 solid;}
+.pandora-consent .btn-area .pandora-consent-refuse:hover{cursor: pointer; background-color: #f4f4f4; color: #008000; border: 1px #008000 solid;}
 </style>
 
 <dialog class="pandora-consent">
@@ -10,6 +20,7 @@ template.innerHTML = `
 </div>
 <form class="pandora-form" method="post">
 </form>
+<div class="btn-area"></div>
 </dialog>
 `
 
@@ -43,23 +54,26 @@ class PandoraConsent extends HTMLElement{
 
         if (accept){
             cookieAccept.setAttribute('value', accept);
+            cookieAccept.innerHTML = accept;
         }else{
             cookieAccept.setAttribute('value', 'Accept');
+            cookieAccept.innerHTML = 'Accept';
         }
         if(some) {
             cookieAcceptSome.setAttribute('value', some);
+            cookieAcceptSome.innerHTML = some;
         }else{
             cookieAcceptSome.setAttribute('value', 'Accept Selected');
+            cookieAcceptSome.innerHTML = 'Accept Selected';
         }
         if (refuse){
             cookieRefuse.setAttribute('value', refuse);
+            cookieRefuse.innerHTML = refuse;
         }else{
             cookieRefuse.setAttribute('value', 'Refuse');
+            cookieRefuse.innerHTML = 'Refuse';
         }
 
-        this.shadowRoot.querySelector('.pandora-form').appendChild(cookieRefuse);
-        this.shadowRoot.querySelector('.pandora-form').appendChild(cookieAcceptSome);
-        this.shadowRoot.querySelector('.pandora-form').appendChild(cookieAccept);
 
         cookieAccept.addEventListener('click', (e) => {
             e.preventDefault();
@@ -85,10 +99,18 @@ class PandoraConsent extends HTMLElement{
             e.preventDefault();
             pandoraConsent.close();
         });
+        this.shadowRoot.querySelector('.btn-area').appendChild(cookieRefuse);
+        this.shadowRoot.querySelector('.btn-area').appendChild(cookieAcceptSome);
+        this.shadowRoot.querySelector('.btn-area').appendChild(cookieAccept);
     }
 
     createCheckboxes(pCookies) {
+        let i= 1;
         pCookies.forEach( (cookie) => {
+            i++;
+            let div = document.createElement('div');
+            div.setAttribute('class', 'pandora-checkbox-container'+i);
+            this.shadowRoot.querySelector('.pandora-form').appendChild(div);
             let inputName = cookie.split(":")[0].toLowerCase();
             let inputValue = cookie.split(":")[1];
             console.log(inputValue);
@@ -99,11 +121,11 @@ class PandoraConsent extends HTMLElement{
             cookieInput.setAttribute('value', inputValue);
             cookieInput.setAttribute('checked', 'checked');
             cookieInput.setAttribute('class', 'pandora-consent-checkbox');
-            this.shadowRoot.querySelector('.pandora-form').appendChild(cookieInput);
             let cookieLabel = document.createElement('label');
             cookieLabel.setAttribute('for', inputName);
             cookieLabel.innerHTML = inputValue;
-            this.shadowRoot.querySelector('.pandora-form').appendChild(cookieLabel);
+            this.shadowRoot.querySelector('.pandora-checkbox-container'+i).appendChild(cookieLabel);
+            this.shadowRoot.querySelector('.pandora-checkbox-container'+i).appendChild(cookieInput);
         })
     }
 }

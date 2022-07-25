@@ -2,7 +2,7 @@
 * @author Fabien Cador - fabiencador@gmail.com
 */
 
-//TODO Deal with multiple modal handlers in one page
+//TODO Deal with multiple modal handlers in one page. Ajout d'une classe au déclendheur type pandora-i-nomdudeclencheur pour identifier le déclencheur. Ensuite ajout d'un attribut du même nom dans la balise pandora-info
 
 const pandoraInfoTpl = document.createElement('template');
 pandoraInfoTpl.innerHTML = `
