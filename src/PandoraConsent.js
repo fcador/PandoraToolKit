@@ -106,26 +106,30 @@ class PandoraConsent extends HTMLElement{
 
     createCheckboxes(pCookies) {
         let i= 1;
-        pCookies.forEach( (cookie) => {
+        pCookies.forEach((cookie)=> {
             i++;
             let div = document.createElement('div');
-            div.setAttribute('class', 'pandora-checkbox-container'+i);
-            this.shadowRoot.querySelector('.pandora-form').appendChild(div);
             let inputName = cookie.split(":")[0].toLowerCase();
             let inputValue = cookie.split(":")[1];
-            console.log(inputValue);
             let cookieInput = document.createElement('input');
+            let cookieLabel = document.createElement('label');
+            let toggle = document.createElement('span');
+
+            div.setAttribute('class', 'pandora-checkbox-container'+i);
             cookieInput.setAttribute('type', 'checkbox');
             cookieInput.setAttribute('name', inputName);
             cookieInput.setAttribute('id', inputName);
             cookieInput.setAttribute('value', inputValue);
             cookieInput.setAttribute('checked', 'checked');
             cookieInput.setAttribute('class', 'pandora-consent-checkbox');
-            let cookieLabel = document.createElement('label');
             cookieLabel.setAttribute('for', inputName);
             cookieLabel.innerHTML = inputValue;
+            toggle.setAttribute('class', 'pandora-consent-toggle');
+
+            this.shadowRoot.querySelector('.pandora-form').appendChild(div);
             this.shadowRoot.querySelector('.pandora-checkbox-container'+i).appendChild(cookieLabel);
             this.shadowRoot.querySelector('.pandora-checkbox-container'+i).appendChild(cookieInput);
+            this.shadowRoot.querySelector('.pandora-checkbox-container'+i).appendChild(toggle);
         })
     }
 }
