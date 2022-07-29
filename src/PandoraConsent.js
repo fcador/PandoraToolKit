@@ -12,6 +12,52 @@ template.innerHTML = `
 .pandora-consent .btn-area .pandora-consent-refuse {width: fit-content; padding: 10px 20px; margin: 10px 20px; border-radius: 50px; background-color: #f4f4f4; font-size: 12px; font-weight: bold; color: #008000; border: 1px transparent solid;}
 .pandora-consent .btn-area :is(.pandora-consent-accept:hover, .pandora-consent-accept-some:hover, .pandora-consent-refuse:hover){cursor: pointer; background-color: #f4f4f4; color: #008000; border: 1px #008000 solid;}
 .pandora-consent .btn-area .pandora-consent-refuse:hover{cursor: pointer; background-color: #f4f4f4; color: #008000; border: 1px #008000 solid;}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 28px;
+  background-color: black;
+  border-radius: 34px;
+}
+.slider {
+  cursor: pointer;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 50%;
+
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: purple;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
 </style>
 
 <dialog class="pandora-consent">
@@ -105,27 +151,33 @@ class PandoraConsent extends HTMLElement{
     }
 
     createCheckboxes(pCookies) {
-        let i= 1;
+        let i= 0;
         pCookies.forEach( (cookie) => {
             i++;
             let div = document.createElement('div');
-            div.setAttribute('class', 'pandora-checkbox-container'+i);
-            this.shadowRoot.querySelector('.pandora-form').appendChild(div);
             let inputName = cookie.split(":")[0].toLowerCase();
             let inputValue = cookie.split(":")[1];
-            console.log(inputValue);
             let cookieInput = document.createElement('input');
+            let cookieLabel = document.createElement('label');
+            let toggle = document.createElement('span');
+            let slider = document.createElement('span');
+            div.setAttribute('class', 'pandora-checkbox-container'+i);
             cookieInput.setAttribute('type', 'checkbox');
             cookieInput.setAttribute('name', inputName);
             cookieInput.setAttribute('id', inputName);
             cookieInput.setAttribute('value', inputValue);
             cookieInput.setAttribute('checked', 'checked');
             cookieInput.setAttribute('class', 'pandora-consent-checkbox');
-            let cookieLabel = document.createElement('label');
             cookieLabel.setAttribute('for', inputName);
+            cookieLabel.setAttribute('class', 'label label'+i)
             cookieLabel.innerHTML = inputValue;
+            toggle.setAttribute('class', 'toggle toggle'+i)
+            slider.setAttribute('class', 'slider slider'+i);
+            this.shadowRoot.querySelector('.pandora-form').appendChild(div);
             this.shadowRoot.querySelector('.pandora-checkbox-container'+i).appendChild(cookieLabel);
-            this.shadowRoot.querySelector('.pandora-checkbox-container'+i).appendChild(cookieInput);
+            this.shadowRoot.querySelector('.label'+i).appendChild(toggle);
+            this.shadowRoot.querySelector('.toggle'+i).appendChild(cookieInput);
+            this.shadowRoot.querySelector('.toggle'+i).appendChild(slider);
         })
     }
 }
