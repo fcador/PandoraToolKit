@@ -161,6 +161,7 @@ class PandoraConsent extends HTMLElement{
             let cookieLabel = document.createElement('label');
             let toggle = document.createElement('span');
             let slider = document.createElement('span');
+
             div.setAttribute('class', 'pandora-checkbox-container'+i);
             cookieInput.setAttribute('type', 'checkbox');
             cookieInput.setAttribute('name', inputName);
@@ -178,6 +179,7 @@ class PandoraConsent extends HTMLElement{
             this.shadowRoot.querySelector('.label'+i).appendChild(toggle);
             this.shadowRoot.querySelector('.toggle'+i).appendChild(cookieInput);
             this.shadowRoot.querySelector('.toggle'+i).appendChild(slider);
+
         })
     }
 }
