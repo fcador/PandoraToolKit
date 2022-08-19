@@ -10,17 +10,23 @@
 <body>
 
     <div class="container">
-        <div class="pandora-i-open">Open Pandora Box</div>
+        <div class="pandora-i-open">Open Pandora Info</div>
         <pandora-info>
             <span slot="title">Pandora Info</span>
             <span slot="message">Mauris lobortis massa id massa suscipit molestie. Donec odio ligula, tincidunt sit amet accumsan eget, tristique non nisl. Cras leo ligula, placerat ac bibendum eget, accumsan sed orci. Sed viverra dapibus commodo. Nulla pretium ex ac enim gravida lacinia. Fusce est diam, tincidunt sed pulvinar non, pellentesque ac tellus. Aliquam erat volutpat. Vivamus velit metus, sodales vitae est ac, cursus pellentesque justo.</span>
             <span slot="valid">Haaaa, OK !</span>
         </pandora-info>
     </div>
+    <div class="container">
+        <div class="pandora-d-open">Open Pandora Display</div>
+        <pandora-display>
+        </pandora-display>
+    </div>
     <pandora-consent
             pandora-cookie='Chocolate:Chocolate cookies,Nut:Nut cookies,Fruit:Fruit cookies'
+            pandora-cookie-samesite='strict'
             pandora-accept="Yes I want all cookies!"
-            pandora-some="I just want some cookies"
+            pandora-partial="I just want selected cookies"
             pandora-refuse="I don't like cookies">
         <span slot="title">Pandora Consent</span>
     </pandora-consent>

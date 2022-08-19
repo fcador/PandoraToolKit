@@ -1,8 +1,6 @@
 /**
-* @author Fabien Cador - fabiencador@gmail.com
-*/
-
-//TODO Deal with multiple modal handlers in one page. Ajout d'une classe au déclendheur type pandora-i-nomdudeclencheur pour identifier le déclencheur. Ensuite ajout d'un attribut du même nom dans la balise pandora-info
+ * @author Fabien Cador - fabiencador@gmail.com
+ */
 
 const pandoraInfoTpl = document.createElement('template');
 pandoraInfoTpl.innerHTML = `
@@ -39,29 +37,29 @@ class PandoraInfo extends HTMLElement{
     }
 
     openPandora(){
-        let pandoraCustom = document.querySelector("pandora-info");
+        let pandoraInfo = document.querySelector("pandora-info");
         let pandoraBox = this.shadowRoot.querySelector(".pandora-info");
         let pandoraBackdrop = this.shadowRoot.querySelector("style")
         let pandoraHeader =  this.shadowRoot.querySelector(".pandora-header");
         let pandoraContent = this.shadowRoot.querySelector(".pandora-content");
         let pandoraValid = this.shadowRoot.querySelector(".pandora-btn-validation");
 
-        if (pandoraCustom.getAttribute("pandora-backdrop-opacity"))
-            pandoraBackdrop.innerHTML += ".pandora-info::backdrop{opacity:"+pandoraCustom.getAttribute("pandora-backdrop-opacity")+"}";
-        if (pandoraCustom.getAttribute("pandora-backdrop-color"))
-            pandoraBackdrop.style.backgroundColor = pandoraCustom.getAttribute("pandora-backdrop-color");
-        if (pandoraCustom.getAttribute("pandora-color-title"))
-            pandoraHeader.style.color = pandoraCustom.getAttribute("pandora-color-title");
-        if (pandoraCustom.getAttribute("pandora-bg-title"))
-            pandoraHeader.style.backgroundColor = pandoraCustom.getAttribute("pandora-bg-title");
-        if (pandoraCustom.getAttribute("pandora-msg-color"))
-            pandoraContent.style.color = pandoraCustom.getAttribute("pandora-msg-color");
-        if (pandoraCustom.getAttribute("pandora-msg-bg"))
-            pandoraContent.style.backgroundColor = pandoraCustom.getAttribute("pandora-msg-bg");
-        if (pandoraCustom.getAttribute("pandora-valid-btn-color"))
-            pandoraValid.style.color = pandoraCustom.getAttribute("pandora-valid-btn-color");
-        if (pandoraCustom.getAttribute("pandora-valid-btn-bg"))
-            pandoraValid.style.backgroundColor = pandoraCustom.getAttribute("pandora-valid-btn-bg");
+        if (pandoraInfo.getAttribute("pandora-backdrop-opacity"))
+            pandoraBackdrop.innerHTML += ".pandora-info::backdrop{opacity:"+pandoraInfo.getAttribute("pandora-backdrop-opacity")+"}";
+        if (pandoraInfo.getAttribute("pandora-backdrop-color"))
+            pandoraBackdrop.style.backgroundColor = pandoraInfo.getAttribute("pandora-backdrop-color");
+        if (pandoraInfo.getAttribute("pandora-color-title"))
+            pandoraHeader.style.color = pandoraInfo.getAttribute("pandora-color-title");
+        if (pandoraInfo.getAttribute("pandora-bg-title"))
+            pandoraHeader.style.backgroundColor = pandoraInfo.getAttribute("pandora-bg-title");
+        if (pandoraInfo.getAttribute("pandora-msg-color"))
+            pandoraContent.style.color = pandoraInfo.getAttribute("pandora-msg-color");
+        if (pandoraInfo.getAttribute("pandora-msg-bg"))
+            pandoraContent.style.backgroundColor = pandoraInfo.getAttribute("pandora-msg-bg");
+        if (pandoraInfo.getAttribute("pandora-valid-btn-color"))
+            pandoraValid.style.color = pandoraInfo.getAttribute("pandora-valid-btn-color");
+        if (pandoraInfo.getAttribute("pandora-valid-btn-bg"))
+            pandoraValid.style.backgroundColor = pandoraInfo.getAttribute("pandora-valid-btn-bg");
 
         pandoraBox.showModal();
 

@@ -3,7 +3,13 @@ Pandora Toolkit
 
 About Pandora Toolkit
 -----
-Pandora is a toolkit to help making basic modal boxes to display infos, cookie consent or videos.
+Pandora is a toolkit to help making basic modal boxes to display infos, to ask user for cookie consent or to display videos.
+
+Pandora Consent will show after the loading of the DOM the different cookies you are asking user to consent. You can let the user choose between refuse, accept all, or accept selected ones. After submit, Pandora Consent will automatically treat the form and add the cookies who need to be registered.
+
+Pandora Info will show a modal of information with only one button to close the modal.
+
+Pandora Display will show a modal containing an iframe adapted to your video.
 
 Dependencies
 -----
@@ -12,7 +18,7 @@ Dependencies
 Usage
 -----
 PandoraConsent will show right after the loading of the DOM.
-For PandoraPlayer and PandoraInfo, you will need an element as trigger, with the correct class value (pandora-i-open or pandora-v-open).
+For PandoraPlayer and PandoraInfo, you will need an element as trigger, with the correct class value (pandora-i-open or pandora-d-open).
 ```html
 <!DOCTYPE html>
 <html lang="fr">
@@ -23,6 +29,7 @@ For PandoraPlayer and PandoraInfo, you will need an element as trigger, with the
     <script src="PandoraInfo.js"></script>
 </head>
 <body>
+    <!-- PANDORA INFO -->
     <div class="container">
         <div class="pandora-i-open">Open Pandora Info</div>
         <pandora-info <!--add some custom styles here-->>
@@ -31,6 +38,17 @@ For PandoraPlayer and PandoraInfo, you will need an element as trigger, with the
             <span slot="valid">Haaaa, OK !</span>
         </pandora-info>
     </div>
+
+    <!-- PANDORA CONSENT -->
+    <pandora-consent
+            pandora-cookie='Chocolate:Chocolate cookies,Nut:Nut cookies,Fruit:Fruit cookies'
+            pandora-cookie-samesite='strict'
+            pandora-accept="Yes I want all cookies!"
+            pandora-partial="I just want selected cookies"
+            pandora-refuse="I don't like cookies"
+            <!--and add some custom styles here-->>
+        <span slot="title">Pandora Consent</span>
+    </pandora-consent>
 </body>
 </html>
 ```
