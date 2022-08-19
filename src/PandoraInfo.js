@@ -6,6 +6,7 @@ const pandoraInfoTpl = document.createElement('template');
 pandoraInfoTpl.innerHTML = `
 <style>
 .pandora-info{width: fit-content; max-width: 50vw; max-height: 50vh; font-family: Roboto, sans-serif; border-radius: 10px;background-color: #f4f4f4;padding: 0}
+.pandora-info > *:empty{display: none}
 .pandora-info :is(.pandora-header, .pandora-content){padding: 10px 20px; font-size: 14px; text-align: justify;}
 .pandora-info::backdrop{opacity: 0.5; background: grey}
 .pandora-info .pandora-header{background-color: #0000ff;font-size: 22px; color: #f4f4f4;}
@@ -48,10 +49,10 @@ class PandoraInfo extends HTMLElement{
             pandoraBackdrop.innerHTML += ".pandora-info::backdrop{opacity:"+pandoraInfo.getAttribute("pandora-backdrop-opacity")+"}";
         if (pandoraInfo.getAttribute("pandora-backdrop-color"))
             pandoraBackdrop.style.backgroundColor = pandoraInfo.getAttribute("pandora-backdrop-color");
-        if (pandoraInfo.getAttribute("pandora-color-title"))
-            pandoraHeader.style.color = pandoraInfo.getAttribute("pandora-color-title");
-        if (pandoraInfo.getAttribute("pandora-bg-title"))
-            pandoraHeader.style.backgroundColor = pandoraInfo.getAttribute("pandora-bg-title");
+        if (pandoraInfo.getAttribute("pandora-title-color"))
+            pandoraHeader.style.color = pandoraInfo.getAttribute("pandora-title-color");
+        if (pandoraInfo.getAttribute("pandora-title-bg"))
+            pandoraHeader.style.backgroundColor = pandoraInfo.getAttribute("pandora-title-bg");
         if (pandoraInfo.getAttribute("pandora-msg-color"))
             pandoraContent.style.color = pandoraInfo.getAttribute("pandora-msg-color");
         if (pandoraInfo.getAttribute("pandora-msg-bg"))

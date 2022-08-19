@@ -2,10 +2,11 @@
  * @author Fabien Cador - fabiencador@gmail.com
  */
 
-const template = document.createElement('template');
-template.innerHTML = `
+const pandoraConsentTpl = document.createElement('template');
+pandoraConsentTpl.innerHTML = `
 <style>
 .pandora-consent{width: fit-content; max-width: 50vw; max-height: 50vh; font-family: Roboto, sans-serif; border-radius: 10px;background-color: #f4f4f4;padding: 0}
+.pandora-consent > *:empty{display: none}
 .pandora-consent :is(.pandora-header, .pandora-form){padding: 10px 20px; font-size: 14px; text-align: justify;}
 .pandora-consent .pandora-form{display: flex; flex-direction: column; justify-content: center; align-items: center;}
 .pandora-consent .pandora-form .pandora-checkbox-container{width: 100%;}
@@ -42,7 +43,7 @@ class PandoraConsent extends HTMLElement{
     constructor() {
         super();
         this.attachShadow({mode: "open"});
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.shadowRoot.appendChild(pandoraConsentTpl.content.cloneNode(true));
     }
 
     connectedCallback() {
@@ -68,10 +69,6 @@ class PandoraConsent extends HTMLElement{
         cookieRefuse.setAttribute('type', 'submit');
         cookieRefuse.setAttribute('class', 'pandora-consent-refuse');
 
-        if (!samesite){
-            samesite = "strict";
-        }
-
         if (accept){
             cookieAccept.setAttribute('value', accept);
             cookieAccept.innerHTML = accept;
@@ -93,6 +90,11 @@ class PandoraConsent extends HTMLElement{
             cookieRefuse.setAttribute('value', 'Refuse');
             cookieRefuse.innerHTML = 'Refuse';
         }
+
+        if (!samesite)
+            samesite = "strict";
+        if (samesite === "none")
+            samesite = samesite + ";Secure";
 
         cookieAccept.addEventListener('click', (e) => {
             e.preventDefault();
@@ -118,6 +120,39 @@ class PandoraConsent extends HTMLElement{
             e.preventDefault();
             pandoraConsent.close();
         });
+
+        let pandoraBackdrop = this.shadowRoot.querySelector("style")
+        let pandoraHeader =  this.shadowRoot.querySelector(".pandora-header");
+        let pandoraContent = this.shadowRoot.querySelector(".pandora-form");
+        let pandoraAccept = this.shadowRoot.querySelector(".pandora-consent-accept");
+        let pandoraAcceptPartial = this.shadowRoot.querySelector(".pandora-consent-accept-partial");
+        let pandoraRefuse = this.shadowRoot.querySelector(".pandora-consent-refuse");
+
+        if (pandoraConsent.getAttribute("pandora-backdrop-opacity"))
+            pandoraBackdrop.innerHTML += ".pandora-info::backdrop{opacity:"+pandoraConsent.getAttribute("pandora-backdrop-opacity")+"}";
+        if (pandoraConsent.getAttribute("pandora-backdrop-color"))
+            pandoraBackdrop.style.backgroundColor = pandoraConsent.getAttribute("pandora-backdrop-color");
+        if (pandoraConsent.getAttribute("pandora-title-color"))
+            pandoraHeader.style.color = pandoraConsent.getAttribute("pandora-title-color");
+        if (pandoraConsent.getAttribute("pandora-title-bg"))
+            pandoraHeader.style.backgroundColor = pandoraConsent.getAttribute("pandora-title-bg");
+        if (pandoraConsent.getAttribute("pandora-msg-color"))
+            pandoraContent.style.color = pandoraConsent.getAttribute("pandora-msg-color");
+        if (pandoraConsent.getAttribute("pandora-msg-bg"))
+            pandoraContent.style.backgroundColor = pandoraConsent.getAttribute("pandora-msg-bg");
+        if (pandoraConsent.getAttribute("pandora-valid-btn-color")) {
+            pandoraAccept.style.color = pandoraConsent.getAttribute("pandora-valid-btn-color");
+            pandoraAcceptPartial.style.color = pandoraConsent.getAttribute("pandora-valid-btn-color");
+        }
+        if (pandoraConsent.getAttribute("pandora-valid-btn-bg")) {
+            pandoraAccept.style.backgroundColor = pandoraConsent.getAttribute("pandora-valid-btn-bg");
+            pandoraAcceptPartial.style.backgroundColor = pandoraConsent.getAttribute("pandora-valid-btn-bg");
+        }
+        if (pandoraConsent.getAttribute("pandora-refuse-btn-color"))
+            pandoraRefuse.style.backgroundColor = pandoraConsent.getAttribute("pandora-refuse-btn-color");
+        if (pandoraConsent.getAttribute("pandora-refuse-btn-bg"))
+            pandoraRefuse.style.backgroundColor = pandoraConsent.getAttribute("pandora-refuse-btn-bg");
+
         this.shadowRoot.querySelector('.btn-area').appendChild(cookieRefuse);
         this.shadowRoot.querySelector('.btn-area').appendChild(cookieAcceptPartial);
         this.shadowRoot.querySelector('.btn-area').appendChild(cookieAccept);

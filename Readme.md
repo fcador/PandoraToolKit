@@ -18,7 +18,7 @@ Dependencies
 Usage
 -----
 PandoraConsent will show right after the loading of the DOM.
-For PandoraPlayer and PandoraInfo, you will need an element as trigger, with the correct class value (pandora-i-open or pandora-d-open).
+For PandoraDisplay and PandoraInfo, you will need an element as trigger, with the correct class value (pandora-i-open or pandora-d-open).
 ```html
 <!DOCTYPE html>
 <html lang="fr">
@@ -59,9 +59,17 @@ Use data-attributes in the pandora-* tag to customize the style of your modal bo
 Here is a list of all the data-attributes you can use:
 * pandora-backdrop-opacity
 * pandora-backdrop-color
-* pandora-color-title
-* pandora-bg-title
+* pandora-title-color
+* pandora-title-bg
 * pandora-msg-color
 * pandora-msg-bg
 * pandora-valid-btn-color
 * pandora-valid-btn-bg
+
+Only for Pandora Consent :
+* pandora-refuse-btn-color
+* pandora-refuse-btn-bg
+
+Features in progress
+-----
+* having the possibility to have more than one Pandora Info and Pandora Display per page
