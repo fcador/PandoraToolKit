@@ -49,6 +49,13 @@ For PandoraDisplay and PandoraInfo, you will need an element as trigger, with th
             <!--and add some custom styles here-->>
         <span slot="title">Pandora Consent</span>
     </pandora-consent>
+
+    <!-- PANDORA DISPLAY -->
+    <div class="container">
+        <div class="pandora-d-open">Open Pandora Display</div>
+        <pandora-display <!--add some custom styles here-->>
+        </pandora-display>
+    </div>
 </body>
 </html>
 ```
@@ -56,19 +63,24 @@ For PandoraDisplay and PandoraInfo, you will need an element as trigger, with th
 Customized styles
 -----
 Use data-attributes in the pandora-* tag to customize the style of your modal box.
-Here is a list of all the data-attributes you can use:
+Here is a list of all the data-attributes you can use :
 * pandora-backdrop-opacity
 * pandora-backdrop-color
-* pandora-title-color
-* pandora-title-bg
-* pandora-msg-color
-* pandora-msg-bg
-* pandora-valid-btn-color
-* pandora-valid-btn-bg
+* pandora-title-color(*)
+* pandora-title-bg(*)
+* pandora-msg-color(*)
+* pandora-msg-bg(*)
+* pandora-valid-btn-color(*)
+* pandora-valid-btn-bg(*)
+
+(*) = not in Pandora Display
 
 Only for Pandora Consent :
 * pandora-refuse-btn-color
 * pandora-refuse-btn-bg
+
+Only for Pandora Display :
+* pandora-closeBG-color
 
 Features in progress
 -----
