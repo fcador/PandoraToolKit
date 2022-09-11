@@ -1,4 +1,0 @@
-*{box-sizing: border-box;}
-body{background-color: #f4f4f4;}
-.container{display: flex; flex-direction: column; justify-content: center; align-items: center; align-content: center;}
-.container .pandora-i-open{padding: 10px 20px; background-color: #000fff; color: #ffffff; border-radius: 10px;}
