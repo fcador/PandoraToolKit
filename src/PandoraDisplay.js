@@ -17,7 +17,6 @@ pandoraDisplayTpl.innerHTML = `
 <div>
     <img class="pandora-btn-close" alt="close button" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNTEyIiBmaWxsPSIjZjRmNGY0Ij48IS0tISBGb250IEF3ZXNvbWUgUHJvIDYuMC4wLWJldGEyIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlIChDb21tZXJjaWFsIExpY2Vuc2UpIC0tPjxwYXRoIGQ9Ik0zMTIuMSAzNzVjOS4zNjkgOS4zNjkgOS4zNjkgMjQuNTcgMCAzMy45NHMtMjQuNTcgOS4zNjktMzMuOTQgMEwxNjAgMjg5LjlsLTExOSAxMTljLTkuMzY5IDkuMzY5LTI0LjU3IDkuMzY5LTMzLjk0IDBzLTkuMzY5LTI0LjU3IDAtMzMuOTRMMTI2LjEgMjU2TDcuMDI3IDEzNi4xYy05LjM2OS05LjM2OS05LjM2OS0yNC41NyAwLTMzLjk0czI0LjU3LTkuMzY5IDMzLjk0IDBMMTYwIDIyMi4xbDExOS0xMTljOS4zNjktOS4zNjkgMjQuNTctOS4zNjkgMzMuOTQgMHM5LjM2OSAyNC41NyAwIDMzLjk0TDE5My45IDI1NkwzMTIuMSAzNzV6Ii8+PC9zdmc+" />
 </div>
-<iframe src="https://player.vimeo.com/video/682360799?h=a2cbf47a7c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:relative;top:0;left:0;width: 100%; height:100%;"></iframe>
 </dialog>
 `
 
@@ -33,6 +32,29 @@ class PandoraDisplay extends HTMLElement{
         let pandoraBox = this.shadowRoot.querySelector(".pandora-display");
         let pandoraBackdrop = this.shadowRoot.querySelector("style");
         let pandoraClose = this.shadowRoot.querySelector('div');
+        let error = document.createElement('p');
+
+        if (!pandoraDisplay.getAttribute('pandora-player') || !pandoraDisplay.getAttribute('pandora-src')){
+            error.innerText = "Missing the attribute pandora-player or pandora-source into the pandora-display tag";
+            this.shadowRoot.querySelector('.pandora-display').appendChild(error);
+            pandoraBox.showModal();
+        }
+
+        if (pandoraDisplay.getAttribute('pandora-player') || pandoraDisplay.getAttribute('pandora-src')){
+            let player = pandoraDisplay.getAttribute('pandora-player');
+            let src = pandoraDisplay.getAttribute('pandora-src');
+            let iframe = document.createElement('iframe');
+            if (player === "vimeo"){
+                iframe.setAttribute("src", "https://player.vimeo.com/video/"+src+"?h=a2cbf47a7c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479")
+            }else if(player === "yt"){
+                iframe.setAttribute("src", "https://www.youtube.com/embed/"+src);
+            }else{
+                error.innerText = "Video player is not recognized";
+                pandoraDisplay.appendChild(error);
+            }
+            pandoraBox.showModal();
+            pandoraBox.style.display = "flex";
+        }
 
         if (pandoraDisplay.getAttribute("pandora-backdrop-opacity"))
             pandoraBackdrop.innerHTML += ".pandora-info::backdrop{opacity:"+pandoraDisplay.getAttribute("pandora-backdrop-opacity")+"}";
@@ -40,9 +62,6 @@ class PandoraDisplay extends HTMLElement{
             pandoraBackdrop.style.backgroundColor = pandoraDisplay.getAttribute("pandora-backdrop-color");
         if (pandoraDisplay.getAttribute("pandora-closeBg-color"))
             pandoraClose.style.backgroundColor = pandoraDisplay.getAttribute("pandora-closeBg-color");
-
-        pandoraBox.showModal();
-        pandoraBox.style.display = "flex";
 
         this.shadowRoot.querySelector('.pandora-btn-close').addEventListener('click', ()=>{
             pandoraBox.style.display = "none";
