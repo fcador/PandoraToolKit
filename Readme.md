@@ -1,4 +1,4 @@
-Pandora Toolkit
+Pandora Toolkit v1
 =====
 
 About Pandora Toolkit
@@ -83,7 +83,7 @@ Only for Pandora Consent :
 * pandora-refuse-btn-bg
 
 Only for Pandora Display :
-* pandora-closeBG-color
+* pandora-closeBg-color
 
 Features in progress
 -----
