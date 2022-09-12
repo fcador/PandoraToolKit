@@ -33,24 +33,28 @@ class PandoraDisplay extends HTMLElement{
         let pandoraBackdrop = this.shadowRoot.querySelector("style");
         let pandoraClose = this.shadowRoot.querySelector('div');
         let error = document.createElement('p');
+        let iframe = document.createElement('iframe');
 
         if (!pandoraDisplay.getAttribute('pandora-player') || !pandoraDisplay.getAttribute('pandora-src')){
             error.innerText = "Missing the attribute pandora-player or pandora-source into the pandora-display tag";
             this.shadowRoot.querySelector('.pandora-display').appendChild(error);
             pandoraBox.showModal();
+            pandoraBox.style.display = "flex";
         }
 
         if (pandoraDisplay.getAttribute('pandora-player') || pandoraDisplay.getAttribute('pandora-src')){
             let player = pandoraDisplay.getAttribute('pandora-player');
             let src = pandoraDisplay.getAttribute('pandora-src');
-            let iframe = document.createElement('iframe');
             if (player === "vimeo"){
-                iframe.setAttribute("src", "https://player.vimeo.com/video/"+src+"?h=a2cbf47a7c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479")
+                iframe.setAttribute("src", "https://player.vimeo.com/video/"+src+"?h=a2cbf47a7c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479");
+                iframe.style.border = "0";
+                pandoraBox.appendChild(iframe);
             }else if(player === "yt"){
                 iframe.setAttribute("src", "https://www.youtube.com/embed/"+src);
+                pandoraBox.appendChild(iframe);
             }else{
                 error.innerText = "Video player is not recognized";
-                pandoraDisplay.appendChild(error);
+                pandoraBox.appendChild(error);
             }
             pandoraBox.showModal();
             pandoraBox.style.display = "flex";
@@ -65,6 +69,7 @@ class PandoraDisplay extends HTMLElement{
 
         this.shadowRoot.querySelector('.pandora-btn-close').addEventListener('click', ()=>{
             pandoraBox.style.display = "none";
+            iframe.remove();
             pandoraBox.close();
         })
     }
