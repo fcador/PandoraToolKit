@@ -53,7 +53,10 @@ For PandoraDisplay and PandoraInfo, you will need an element as trigger, with th
     <!-- PANDORA DISPLAY -->
     <div class="container">
         <div class="pandora-d-open">Open Pandora Display</div>
-        <pandora-display <!--add some custom styles here-->>
+        <pandora-display 
+                pandora-player="vimeo"
+                pandora-src="744288201"
+                <!-- and add some custom styles here-->>
         </pandora-display>
     </div>
 </body>
