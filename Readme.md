@@ -5,7 +5,8 @@ About Pandora Toolkit
 -----
 Pandora is a toolkit to help making basic modal boxes to display infos, to ask user for cookie consent or to display videos.
 
-Pandora Consent will show after the loading of the DOM the different cookies you are asking user to consent. You can let the user choose between refuse, accept all, or accept selected ones. After submit, Pandora Consent will automatically treat the form and add the cookies who need to be registered.
+Pandora Consent is a customizable web component designed to handle user consent for the use of cookies on your site. Upon the completion of DOM loading, Pandora Consent displays a comprehensive list of cookies for which you are seeking user approval.
+It provides users with the option to either refuse all cookies, accept all, or selectively accept some. Upon user interaction, the component emits custom events to signify the user's decision. You can listen to these events - namely 'cookies-accepted', 'cookies-partially-accepted', and 'cookies-refused' - to adapt your site's behavior accordingly.
 
 Pandora Info will show a modal of information with only one button to close the modal.
 
