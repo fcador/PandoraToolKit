@@ -10,7 +10,7 @@ pandoraDisplayTpl.innerHTML = `
 .pandora-display .pandora-header{padding: 10px 20px; font-size: 14px; text-align: justify;}
 .pandora-display::backdrop{opacity: 0.5; background: grey}
 .pandora-display .pandora-header{background-color: #ff0000;font-size: 22px; color: #f4f4f4;}
-.pandora-display div{position: absolute; display: flex; justify-content: center; width: 24px; top: 5px; right: 20px; z-index: 10;background-color: #ff0000; border-radius: 10px; padding: 5px 10px;}
+.pandora-display div{position: absolute; display: flex; justify-content: center; width: 24px; top: 5px; right: 20px; z-index: 10;border-radius: 10px;}
 .pandora-display iframe{flex-grow: 1; margin: 0; padding: 0; }
 </style>
 <dialog class="pandora-display">
