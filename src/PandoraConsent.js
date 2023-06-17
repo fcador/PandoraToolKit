@@ -47,24 +47,24 @@ class PandoraConsent extends HTMLElement{
     }
 
     connectedCallback() {
-        console.log('here')
+        // Select necessary elements and get attributes
         const pandoraToolbox = document.querySelector("pandora-consent");
         const pandoraConsent = this.shadowRoot.querySelector(".pandora-consent");
         const cookies = pandoraToolbox.getAttribute('pandora-cookie');
-        const samesite = pandoraToolbox.getAttribute('pandora-cookie-samesite') || "strict";
         const cookiesArray = cookies.split(",");
         const accept = pandoraToolbox.getAttribute('pandora-accept') || 'Accept';
         const some = pandoraToolbox.getAttribute('pandora-partial') || 'Accept Selected';
         const refuse = pandoraToolbox.getAttribute('pandora-refuse') || 'Refuse';
-
-        this.createCheckboxes(cookiesArray);
-        this.createButtons(accept, some, refuse, cookiesArray, samesite, pandoraConsent);
-
+        
+        // Then open modal
+        pandoraConsent.showModal();
+        this.createSliders(cookiesArray);
+        this.createButtons(accept, some, refuse, cookiesArray, pandoraConsent);
         this.setConsentAttributes(pandoraConsent);
     }
-
-    createCheckboxes(pCookies) {
-        console.log('checkboxes')
+    
+    // Method to create the different sliders and their associated labels
+    createSliders(pCookies) {
         let i= 0;
         pCookies.forEach( (cookie) => {
             i++;
@@ -96,23 +96,23 @@ class PandoraConsent extends HTMLElement{
         })
     }
 
-    createButtons(accept, some, refuse, cookiesArray, samesite, pandoraConsent) {
-        console.log("button")
+    // Method to create the accept, partial accept, and refuse buttons
+    createButtons(accept, some, refuse, cookiesArray, pandoraConsent) {
         const cookieAccept = this.createButton('pandora-consent-accept', accept);
         const cookieAcceptPartial = this.createButton('pandora-consent-accept-partial', some);
         const cookieRefuse = this.createButton('pandora-consent-refuse', refuse);
 
-        cookieAccept.addEventListener('click', (e) => this.handleAccept(e, cookiesArray, samesite, pandoraConsent));
-        cookieAcceptPartial.addEventListener('click', (e) => this.handlePartialAccept(e, cookiesArray, samesite, pandoraConsent));
+        cookieAccept.addEventListener('click', (e) => this.handleAccept(e, cookiesArray, pandoraConsent));
+        cookieAcceptPartial.addEventListener('click', (e) => this.handlePartialAccept(e, cookiesArray, pandoraConsent));
         cookieRefuse.addEventListener('click', (e) => this.handleRefuse(e, pandoraConsent));
 
         const buttonArea = this.shadowRoot.querySelector('.btn-area');
-        console.log(buttonArea)
         buttonArea.appendChild(cookieRefuse);
         buttonArea.appendChild(cookieAcceptPartial);
         buttonArea.appendChild(cookieAccept);
     }
 
+    // Helper method to create a button
     createButton(className, innerText) {
         const button = document.createElement('button');
         button.setAttribute('type', 'submit');
@@ -123,33 +123,35 @@ class PandoraConsent extends HTMLElement{
         return button;
     }
 
-    handleAccept(e, cookiesArray, samesite, pandoraConsent) {
+    handleAccept(e, cookiesArray, pandoraConsent) {
         e.preventDefault();
-        cookiesArray.forEach((cookie) => {
-            const inputName = cookie.split(":")[0].toLowerCase();
-            document.cookie = `${inputName}=true;path=/;samesite=${samesite}`;
-        })
+        const acceptedCookies = cookiesArray.map((cookie) => cookie.split(":")[0].toLowerCase());
         pandoraConsent.close();
+        this.dispatchEvent(new CustomEvent('cookies-accepted', { detail: { acceptedCookies }}));
     }
-
-    handlePartialAccept(e, cookiesArray, samesite, pandoraConsent) {
+    
+    handlePartialAccept(e, cookiesArray, pandoraConsent) {
         e.preventDefault();
+        const acceptedCookies = [];
         cookiesArray.forEach((cookie) => {
             const inputName = cookie.split(":")[0].toLowerCase();
             if (this.shadowRoot.querySelector(`#${inputName}`).checked){
-                document.cookie = `${inputName}=true;path=/;samesite=${samesite}`;
+                acceptedCookies.push(inputName);
             }
         })
         pandoraConsent.close();
+        this.dispatchEvent(new CustomEvent('cookies-partially-accepted', { detail: { acceptedCookies }}));
     }
-
+    
     handleRefuse(e, pandoraConsent) {
         e.preventDefault();
+        const refusedCookies = cookiesArray.map((cookie) => cookie.split(":")[0].toLowerCase());
         pandoraConsent.close();
-    } 
+        this.dispatchEvent(new CustomEvent('cookies-refused', { detail: { refusedCookies }}));
+    }
     
+    // Method to set the attributes for the consent popin
     setConsentAttributes(pandoraConsent) {
-        // Attributs personnalisés
         const pandoraBackdrop = pandoraConsent.getAttribute("pandora-backdrop-opacity");
         const pandoraHeaderBg = pandoraConsent.getAttribute("pandora-title-bg");
         const pandoraHeaderColor = pandoraConsent.getAttribute("pandora-title-color");
@@ -160,7 +162,6 @@ class PandoraConsent extends HTMLElement{
         const pandoraRefuseColor = pandoraConsent.getAttribute("pandora-refuse-btn-color");
         const pandoraRefuseBg = pandoraConsent.getAttribute("pandora-refuse-btn-bg");
     
-        // Appliquer les attributs personnalisés
         if (pandoraBackdrop) {
             this.shadowRoot.querySelector("style").innerHTML += `.pandora-info::backdrop{opacity:${pandoraBackdrop}}`;
         }
