@@ -21,17 +21,42 @@ pandoraDisplayTpl.innerHTML = `
 `
 
 class PandoraDisplay extends HTMLElement {
+    static get observedAttributes() {
+        return ['pandora-player', 'pandora-src', 'pandora-backdrop-opacity', 'pandora-backdrop-color', 'pandora-closeBg-color'];
+    }
+
     constructor() {
         super();
         this.attachShadow({mode: "open"});
         this.shadowRoot.appendChild(pandoraDisplayTpl.content.cloneNode(true));
     }
 
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (oldValue !== newValue) {
+            if (name === 'pandora-player' || name === 'pandora-src') {
+                this.openPandora();
+            } else if (name === 'pandora-backdrop-opacity' || name === 'pandora-backdrop-color' || name === 'pandora-closeBg-color') {
+                this.updateStyles();
+            }
+        }
+    }
+
+    updateStyles() {
+        let pandoraDisplay = this;
+        let pandoraBackdrop = this.shadowRoot.querySelector("style");
+        let pandoraClose = this.shadowRoot.querySelector('div');
+
+        if (pandoraDisplay.getAttribute("pandora-backdrop-opacity"))
+            pandoraBackdrop.innerHTML += `.pandora-info::backdrop{opacity:${pandoraDisplay.getAttribute("pandora-backdrop-opacity")}}`;
+        if (pandoraDisplay.getAttribute("pandora-backdrop-color"))
+            pandoraBackdrop.style.backgroundColor = pandoraDisplay.getAttribute("pandora-backdrop-color");
+        if (pandoraDisplay.getAttribute("pandora-closeBg-color"))
+            pandoraClose.style.backgroundColor = pandoraDisplay.getAttribute("pandora-closeBg-color");
+    }
+
     openPandora() {
         let pandoraDisplay = this;
         let pandoraBox = this.shadowRoot.querySelector(".pandora-display");
-        let pandoraBackdrop = this.shadowRoot.querySelector("style");
-        let pandoraClose = this.shadowRoot.querySelector('div');
 
         // Suppression des précédents éléments
         let oldIframe = pandoraBox.querySelector('iframe');
@@ -57,13 +82,6 @@ class PandoraDisplay extends HTMLElement {
             error.innerText = "Video player is not recognized";
             pandoraBox.appendChild(error);
         }
-
-        if (pandoraDisplay.getAttribute("pandora-backdrop-opacity"))
-            pandoraBackdrop.innerHTML += `.pandora-info::backdrop{opacity:${pandoraDisplay.getAttribute("pandora-backdrop-opacity")}}`;
-        if (pandoraDisplay.getAttribute("pandora-backdrop-color"))
-            pandoraBackdrop.style.backgroundColor = pandoraDisplay.getAttribute("pandora-backdrop-color");
-        if (pandoraDisplay.getAttribute("pandora-closeBg-color"))
-            pandoraClose.style.backgroundColor = pandoraDisplay.getAttribute("pandora-closeBg-color");
 
         this.shadowRoot.querySelector('.pandora-btn-close').addEventListener('click', this.closePandora.bind(this));
         pandoraBox.showModal();
