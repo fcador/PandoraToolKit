@@ -31,48 +31,67 @@ pandoraInfoTpl.innerHTML = `
 `
 
 class PandoraInfo extends HTMLElement{
+    static get observedAttributes() {
+        return ['pandora-backdrop-opacity', 'pandora-backdrop-color', 'pandora-title-color', 'pandora-title-bg', 'pandora-msg-color', 'pandora-msg-bg', 'pandora-valid-btn-color', 'pandora-valid-btn-bg'];
+    }
+
     constructor() {
         super();
         this.attachShadow({mode: "open"} );
         this.shadowRoot.appendChild(pandoraInfoTpl.content.cloneNode(true));
-    }
-
-    openPandora(){
-        let pandoraInfo = document.querySelector("pandora-info");
-        let pandoraBox = this.shadowRoot.querySelector(".pandora-info");
-        let pandoraBackdrop = this.shadowRoot.querySelector("style")
-        let pandoraHeader =  this.shadowRoot.querySelector(".pandora-header");
-        let pandoraContent = this.shadowRoot.querySelector(".pandora-content");
-        let pandoraValid = this.shadowRoot.querySelector(".pandora-btn-validation");
-
-        if (pandoraInfo.getAttribute("pandora-backdrop-opacity"))
-            pandoraBackdrop.innerHTML += ".pandora-info::backdrop{opacity:"+pandoraInfo.getAttribute("pandora-backdrop-opacity")+"}";
-        if (pandoraInfo.getAttribute("pandora-backdrop-color"))
-            pandoraBackdrop.style.backgroundColor = pandoraInfo.getAttribute("pandora-backdrop-color");
-        if (pandoraInfo.getAttribute("pandora-title-color"))
-            pandoraHeader.style.color = pandoraInfo.getAttribute("pandora-title-color");
-        if (pandoraInfo.getAttribute("pandora-title-bg"))
-            pandoraHeader.style.backgroundColor = pandoraInfo.getAttribute("pandora-title-bg");
-        if (pandoraInfo.getAttribute("pandora-msg-color"))
-            pandoraContent.style.color = pandoraInfo.getAttribute("pandora-msg-color");
-        if (pandoraInfo.getAttribute("pandora-msg-bg"))
-            pandoraContent.style.backgroundColor = pandoraInfo.getAttribute("pandora-msg-bg");
-        if (pandoraInfo.getAttribute("pandora-valid-btn-color"))
-            pandoraValid.style.color = pandoraInfo.getAttribute("pandora-valid-btn-color");
-        if (pandoraInfo.getAttribute("pandora-valid-btn-bg"))
-            pandoraValid.style.backgroundColor = pandoraInfo.getAttribute("pandora-valid-btn-bg");
-
-        pandoraBox.showModal();
-
-        this.shadowRoot.querySelector('.pandora-btn-validation').addEventListener('click', ()=>{
-            pandoraBox.close();
-        })
+        
+        this.pandoraBox = this.shadowRoot.querySelector(".pandora-info");
+        this.pandoraBackdrop = this.shadowRoot.querySelector("style");
+        this.pandoraHeader =  this.shadowRoot.querySelector(".pandora-header");
+        this.pandoraContent = this.shadowRoot.querySelector(".pandora-content");
+        this.pandoraValid = this.shadowRoot.querySelector(".pandora-btn-validation");
+        
+        this.btnClickListener = () => this.openPandora();
+        this.pandoraValid.addEventListener('click', () => this.pandoraBox.close());
     }
 
     connectedCallback() {
-        document.querySelector('.pandora-i-open').addEventListener('click', ()=>{
-            this.openPandora();
-        })
+        document.querySelector('.pandora-i-open').addEventListener('click', this.btnClickListener);
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        switch(name) {
+            case 'pandora-backdrop-opacity':
+                this.pandoraBackdrop.innerHTML += `.pandora-info::backdrop{opacity:${newValue}}`;
+                break;
+            case 'pandora-backdrop-color':
+                this.pandoraBackdrop.style.backgroundColor = newValue;
+                break;
+            case 'pandora-title-color':
+                this.pandoraHeader.style.color = newValue;
+                break;
+            case 'pandora-title-bg':
+                this.pandoraHeader.style.backgroundColor = newValue;
+                break;
+            case 'pandora-msg-color':
+                this.pandoraContent.style.color = newValue;
+                break;
+            case 'pandora-msg-bg':
+                this.pandoraContent.style.backgroundColor = newValue;
+                break;
+            case 'pandora-valid-btn-color':
+                this.pandoraValid.style.color = newValue;
+                break;
+            case 'pandora-valid-btn-bg':
+                this.pandoraValid.style.backgroundColor = newValue;
+                break;
+            default:
+                console.warn(`Unhandeled attribute changed: ${name} from ${oldValue} to ${newValue}`);
+        }
+    }
+
+    openPandora(){
+        this.pandoraBox.showModal();
+    }
+    
+    disconnectedCallback() {
+        document.querySelector('.pandora-i-open').removeEventListener('click', this.btnClickListener);
     }
 }
+
 window.customElements.define('pandora-info', PandoraInfo);
