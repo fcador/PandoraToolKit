@@ -58,7 +58,6 @@ class PandoraDisplay extends HTMLElement {
         let pandoraDisplay = this;
         let pandoraBox = this.shadowRoot.querySelector(".pandora-display");
 
-        // Suppression des précédents éléments
         let oldIframe = pandoraBox.querySelector('iframe');
         if (oldIframe) oldIframe.remove();
         let oldError = pandoraBox.querySelector('p');
