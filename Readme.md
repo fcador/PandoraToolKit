@@ -14,7 +14,7 @@ Significant changes have been made to how Pandora Consent operates. Previously, 
 
 Pandora is a toolkit to help making basic modal boxes to display infos, to ask user for cookie consent or to display videos.
 
-Pandora Consent is a customizable web component designed to handle user consent for the use of cookies on your site. Upon the completion of DOM loading, Pandora Consent displays a comprehensive list of cookies for which you are seeking user approval.
+* Pandora Consent is a customizable web component designed to handle user consent for the use of cookies on your site. Upon the completion of DOM loading, Pandora Consent displays a comprehensive list of cookies for which you are seeking user approval.
 It provides users with the option to either refuse all cookies, accept all, or selectively accept some. Upon user interaction, the component emits custom events to signify the user's decision. You can listen to these events - namely 'cookies-accepted', 'cookies-partially-accepted', and 'cookies-refused' - to adapt your site's behavior accordingly.
 To listen to these events in your project, you can use the addEventListener function on the Pandora Consent element. Here's how you can do it:
 
@@ -39,9 +39,9 @@ pandoraConsentElement.addEventListener('cookies-refused', (e) => {
 });
 ```
 
-Pandora Info will show a modal of information with only one button to close the modal.
+* Pandora Info will show a modal of information with only one button to close the modal.
 
-Pandora Display will show a modal containing an iframe adapted to your video.
+* Pandora Display will show a modal containing an iframe adapted to your video.
 
 ## Dependencies
 
