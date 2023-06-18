@@ -1,23 +1,54 @@
-Pandora Toolkit v1
-=====
+# Pandora Toolkit v1.1
 
-About Pandora Toolkit
------
+## What's new in v1.1
+
+### Refactoring
+
+We've undertaken a comprehensive refactoring of the different tools used in our project. The primary motivation behind this revamp was to improve the readability of the code and to simplify ongoing and future maintenance efforts. This restructuring offers a cleaner, more modularized, and efficient architecture for our codebase.
+
+### Changes in Pandora Consent
+
+Significant changes have been made to how Pandora Consent operates. Previously, Pandora Consent was responsible for both reading and writing cookies. We have now moved away from this approach. Instead of directly handling cookies, Pandora Consent now emits events.
+
+## About Pandora Toolkit
+
 Pandora is a toolkit to help making basic modal boxes to display infos, to ask user for cookie consent or to display videos.
 
 Pandora Consent is a customizable web component designed to handle user consent for the use of cookies on your site. Upon the completion of DOM loading, Pandora Consent displays a comprehensive list of cookies for which you are seeking user approval.
 It provides users with the option to either refuse all cookies, accept all, or selectively accept some. Upon user interaction, the component emits custom events to signify the user's decision. You can listen to these events - namely 'cookies-accepted', 'cookies-partially-accepted', and 'cookies-refused' - to adapt your site's behavior accordingly.
+To listen to these events in your project, you can use the addEventListener function on the Pandora Consent element. Here's how you can do it:
+
+```javascript
+const pandoraConsentElement = document.querySelector('pandora-consent');
+
+pandoraConsentElement.addEventListener('cookies-accepted', (e) => {
+  // Handle the event
+  console.log('User has accepted cookies:', e.detail.acceptedCookies);
+});
+
+// Listen for the 'cookies-partially-accepted' event
+pandoraConsentElement.addEventListener('cookies-partially-accepted', (e) => {
+  // Handle the event
+  console.log('User has partially accepted cookies:', e.detail.acceptedCookies);
+});
+
+// Listen for the 'cookies-refused' event
+pandoraConsentElement.addEventListener('cookies-refused', (e) => {
+  // Handle the event
+  console.log('User has refused cookies:', e.detail.refusedCookies);
+});
+```
 
 Pandora Info will show a modal of information with only one button to close the modal.
 
 Pandora Display will show a modal containing an iframe adapted to your video.
 
-Dependencies
------
+## Dependencies
+
 * No depedencies
 
-Usage
------
+## Usage
+
 PandoraConsent will show right after the loading of the DOM.
 For PandoraDisplay and PandoraInfo, you will need an element as trigger, with the correct class value (pandora-i-open or pandora-d-open).
 ```html
@@ -43,7 +74,6 @@ For PandoraDisplay and PandoraInfo, you will need an element as trigger, with th
     <!-- PANDORA CONSENT -->
     <pandora-consent
             pandora-cookie='Chocolate:Chocolate cookies,Nut:Nut cookies,Fruit:Fruit cookies'
-            pandora-cookie-samesite='strict'
             pandora-accept="Yes I want all cookies!"
             pandora-partial="I just want selected cookies"
             pandora-refuse="I don't like cookies"
